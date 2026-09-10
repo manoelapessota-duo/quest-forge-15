@@ -4,7 +4,7 @@
 
 Construir um pequeno RPG de exploração completo, em português, no qual o mapa é a tela central e todo o desenvolvimento profissional acontece por meio de regiões, missões, NPCs, perguntas e recompensas.
 
-O aplicativo será local-first, sem login e sem servidor. A planilha enviada será transformada em dados internos do jogo: ela já contém os 48 materiais e as 480 perguntas oficiais, com os três formatos, dificuldades, respostas, justificativas e XP.
+O aplicativo será local-first e preparado para hospedagem na intranet da empresa, sem login e sem servidor no MVP. A planilha enviada será transformada em dados internos do jogo: ela já contém os 48 materiais e as 480 perguntas oficiais, com os três formatos, dificuldades, respostas, justificativas e XP.
 
 ## 1. Fundação visual e identidade
 
@@ -98,6 +98,9 @@ Separar em módulos reutilizáveis de mapa, HUD, personagem, NPC, marcador, port
 ## Decisões técnicas
 
 - Manter TanStack Start/Vite já existente e React 19; não adicionar backend, autenticação ou APIs externas.
+- Empacotar dados, fontes, ilustrações e demais recursos junto do aplicativo, sem exigir acesso à internet durante o uso na intranet.
+- Manter caminhos e navegação compatíveis com hospedagem interna e recarregamento de páginas; documentar a configuração mínima do servidor da intranet para servir as rotas do aplicativo.
+- Tratar o progresso como local ao navegador e ao dispositivo neste MVP; sem backend, ele não será compartilhado entre computadores nem ficará disponível para consolidação real entre colaboradores.
 - Usar SVG/HTML/CSS para o mundo e interações, evitando uma biblioteca pesada de jogo ou 3D.
 - Usar contexto + reducer e funções puras para o estado, com persistência versionada em `localStorage`.
 - Usar os componentes e dependências já instalados quando forem adequados; adicionar somente o mínimo necessário para testes.
