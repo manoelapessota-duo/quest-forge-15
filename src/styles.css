@@ -218,8 +218,7 @@
 .pdi-float { animation: pdi-float 4s ease-in-out infinite; }
 .pdi-ring { animation: pdi-pulse-ring 2.4s ease-out infinite; }
 
-.reduce-motion *,
-@media (prefers-reduced-motion: reduce) {
-  animation-duration: 0.001ms !important;
-}
 .reduce-motion * { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
