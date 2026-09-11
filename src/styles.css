@@ -142,3 +142,84 @@
     color: var(--color-foreground);
   }
 }
+
+/* ---------------- PDI QUEST — identidade visual ---------------- */
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.19 0.035 165);
+  --foreground: oklch(0.95 0.02 95);
+  --card: oklch(0.24 0.035 160);
+  --card-foreground: oklch(0.95 0.02 95);
+  --popover: oklch(0.22 0.035 160);
+  --popover-foreground: oklch(0.95 0.02 95);
+  --primary: oklch(0.78 0.15 82);
+  --primary-foreground: oklch(0.2 0.04 80);
+  --secondary: oklch(0.32 0.045 168);
+  --secondary-foreground: oklch(0.95 0.02 95);
+  --muted: oklch(0.28 0.03 165);
+  --muted-foreground: oklch(0.74 0.03 110);
+  --accent: oklch(0.62 0.14 210);
+  --accent-foreground: oklch(0.16 0.03 210);
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(0.97 0.01 90);
+  --border: oklch(0.42 0.05 150 / 45%);
+  --input: oklch(0.42 0.05 150 / 55%);
+  --ring: oklch(0.78 0.15 82);
+  --chart-1: oklch(0.78 0.15 82);
+  --chart-2: oklch(0.68 0.13 165);
+  --chart-3: oklch(0.62 0.14 210);
+  --chart-4: oklch(0.7 0.16 320);
+  --chart-5: oklch(0.72 0.16 40);
+
+  --magic: oklch(0.72 0.16 300);
+  --success: oklch(0.7 0.15 150);
+  --parchment: oklch(0.93 0.04 88);
+  --stone: oklch(0.5 0.02 120);
+  --water: oklch(0.6 0.1 225);
+  --leaf: oklch(0.55 0.12 150);
+}
+
+@theme inline {
+  --color-magic: var(--magic);
+  --color-success: var(--success);
+  --color-parchment: var(--parchment);
+  --color-stone: var(--stone);
+  --color-water: var(--water);
+  --color-leaf: var(--leaf);
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+}
+
+@utility quest-panel {
+  background:
+    linear-gradient(oklch(0.24 0.035 160 / 0.94), oklch(0.2 0.03 162 / 0.94));
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px oklch(0.1 0.02 160 / 0.5);
+}
+
+@keyframes pdi-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes pdi-pulse-ring {
+  0% { opacity: 0.7; transform: scale(0.85); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+.pdi-float { animation: pdi-float 4s ease-in-out infinite; }
+.pdi-ring { animation: pdi-pulse-ring 2.4s ease-out infinite; }
+
+.reduce-motion *,
+@media (prefers-reduced-motion: reduce) {
+  animation-duration: 0.001ms !important;
+}
+.reduce-motion * { animation: none !important; transition: none !important; }
