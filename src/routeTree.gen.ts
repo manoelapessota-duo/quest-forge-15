@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CharacterRouteImport } from './routes/character'
+import { Route as DiagnosticRouteImport } from './routes/diagnostic'
+import { Route as DiagnosticResultRouteImport } from './routes/diagnostic-result'
+import { Route as PrologueRouteImport } from './routes/prologue'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CharacterRoute = CharacterRouteImport.update({
+  id: '/character',
+  path: '/character',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticRoute = DiagnosticRouteImport.update({
+  id: '/diagnostic',
+  path: '/diagnostic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticResultRoute = DiagnosticResultRouteImport.update({
+  id: '/diagnostic-result',
+  path: '/diagnostic-result',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrologueRoute = PrologueRouteImport.update({
+  id: '/prologue',
+  path: '/prologue',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/character': typeof CharacterRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/diagnostic-result': typeof DiagnosticResultRoute
+  '/prologue': typeof PrologueRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/character': typeof CharacterRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/diagnostic-result': typeof DiagnosticResultRoute
+  '/prologue': typeof PrologueRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/character': typeof CharacterRoute
+  '/diagnostic': typeof DiagnosticRoute
+  '/diagnostic-result': typeof DiagnosticResultRoute
+  '/prologue': typeof PrologueRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/character' | '/diagnostic' | '/diagnostic-result' | '/prologue'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/character' | '/diagnostic' | '/diagnostic-result' | '/prologue'
+  id:
+    | '__root__'
+    | '/'
+    | '/character'
+    | '/diagnostic'
+    | '/diagnostic-result'
+    | '/prologue'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CharacterRoute: typeof CharacterRoute
+  DiagnosticRoute: typeof DiagnosticRoute
+  DiagnosticResultRoute: typeof DiagnosticResultRoute
+  PrologueRoute: typeof PrologueRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/character': {
+      id: '/character'
+      path: '/character'
+      fullPath: '/character'
+      preLoaderRoute: typeof CharacterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic': {
+      id: '/diagnostic'
+      path: '/diagnostic'
+      fullPath: '/diagnostic'
+      preLoaderRoute: typeof DiagnosticRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic-result': {
+      id: '/diagnostic-result'
+      path: '/diagnostic-result'
+      fullPath: '/diagnostic-result'
+      preLoaderRoute: typeof DiagnosticResultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prologue': {
+      id: '/prologue'
+      path: '/prologue'
+      fullPath: '/prologue'
+      preLoaderRoute: typeof PrologueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CharacterRoute: CharacterRoute,
+  DiagnosticRoute: DiagnosticRoute,
+  DiagnosticResultRoute: DiagnosticResultRoute,
+  PrologueRoute: PrologueRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
