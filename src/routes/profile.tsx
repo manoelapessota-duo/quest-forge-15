@@ -10,7 +10,6 @@ import {
   isRegionUnlocked,
 } from "@/game/rules";
 import { AvatarView } from "@/components/game/AvatarView";
-import { getAvatar } from "@/game/avatars";
 import { useGame } from "@/game/state";
 
 export const Route = createFileRoute("/profile")({
