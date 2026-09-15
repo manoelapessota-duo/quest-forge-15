@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { QuestionRunner } from "@/components/game/QuestionRunner";
-import { buildDiagnostic } from "@/game/rules";
+import { DIAGNOSTIC_QUESTIONS, suggestStartingStage } from "@/game/diagnostic";
+import { seededShuffle } from "@/game/rules";
 import { useGame } from "@/game/state";
 
 export const Route = createFileRoute("/diagnostic")({
@@ -29,7 +30,7 @@ function DiagnosticScreen() {
   }, [hydrated, save.player, navigate]);
 
   const seed = String(save.player?.createdAt ?? "diagnostic");
-  const questions = useMemo(() => buildDiagnostic(seed, 12), [seed]);
+  const questions = useMemo(() => seededShuffle(DIAGNOSTIC_QUESTIONS, seed), [seed]);
   const perAxis = useMemo<Record<string, { asked: number; correct: number }>>(() => ({}), []);
 
   if (save.progress.diagnostic && !started) {
@@ -65,8 +66,8 @@ function DiagnosticScreen() {
         <p className="text-xs tracking-[0.3em] text-primary uppercase">Missão inicial</p>
         <h1 className="mt-3 font-display text-3xl text-parchment sm:text-4xl">Prova do Espelho</h1>
         <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-          Doze desafios sorteados entre os oito eixos do ofício, em formatos e dificuldades variadas.
-          Não existe reprovação: o resultado desenha o seu ponto de partida e o próximo caminho.
+          Doze perguntas gerais de ofício — nada específico do conteúdo do PDI. Não existe reprovação: o
+          resultado apenas define em que parte da jornada você começa.
         </p>
         <button
           type="button"
@@ -95,7 +96,9 @@ function DiagnosticScreen() {
           };
           return outcome;
         }}
-        onFinish={() => {
+        onFinish={(result) => {
+          const stage = suggestStartingStage(result.correct, result.total);
+          console.info("Ponto de partida sugerido:", stage.stage);
           saveDiagnostic({ at: Date.now(), perAxis: { ...perAxis } });
           navigate({ to: "/diagnostic-result" });
         }}
