@@ -211,6 +211,8 @@ export function canPlayWeeklyBoss(save: GameSave, now = new Date()): boolean {
 
 export function canChangeClass(save: GameSave, now = Date.now()): boolean {
   if (!save.player) return false;
+  // Quem acabou de criar o personagem ainda não gastou a troca do semestre.
+  if (save.player.classChangedAt === save.player.createdAt) return true;
   return now - save.player.classChangedAt >= 182 * DAY;
 }
 
