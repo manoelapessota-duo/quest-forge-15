@@ -15,7 +15,7 @@ const STATUS_FILL: Record<string, string> = {
 export function WorldMap({ onSelect }: { onSelect: (materialId: string) => void }) {
   const { save } = useGame();
   const xp = save.player?.xp ?? 0;
-  const [view, setView] = useState({ x: 40, y: 700, scale: 1 });
+  const [view, setView] = useState({ x: 40, y: 700, scale: 2 });
   const drag = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
   const box = useRef<HTMLDivElement | null>(null);
 
@@ -32,7 +32,7 @@ export function WorldMap({ onSelect }: { onSelect: (materialId: string) => void 
   const zoom = useCallback(
     (factor: number) => {
       setView((v) => {
-        const scale = Math.max(0.6, Math.min(2.6, v.scale * factor));
+        const scale = Math.max(0.9, Math.min(3.2, v.scale * factor));
         const cx = v.x + MAP_WIDTH / v.scale / 2;
         const cy = v.y + MAP_HEIGHT / v.scale / 2;
         return clamp({ scale, x: cx - MAP_WIDTH / scale / 2, y: cy - MAP_HEIGHT / scale / 2 });
