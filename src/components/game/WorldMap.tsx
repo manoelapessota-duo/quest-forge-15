@@ -192,6 +192,19 @@ export function WorldMap({ onSelect }: { onSelect: (materialId: string) => void 
             );
           })}
 
+          <g aria-hidden="true" pointerEvents="none">
+            {MAP_NODES.filter((node) => getQuestStatus(save, node.materialId) === "available").map((node) => (
+              <circle
+                key={`ring-${node.materialId}`}
+                cx={node.x}
+                cy={node.y}
+                r={18}
+                fill="var(--primary)"
+                className="pdi-ring"
+              />
+            ))}
+          </g>
+
           {MAP_NODES.map((node) => {
             const material = MATERIALS.find((m) => m.id === node.materialId)!;
             const status = getQuestStatus(save, node.materialId);
@@ -207,9 +220,6 @@ export function WorldMap({ onSelect }: { onSelect: (materialId: string) => void 
                 }}
                 className="cursor-pointer outline-none focus-visible:opacity-80"
               >
-                {status === "available" && (
-                  <circle cx={node.x} cy={node.y} r={18} fill="var(--primary)" className="pdi-ring" />
-                )}
                 <circle
                   cx={node.x}
                   cy={node.y}
