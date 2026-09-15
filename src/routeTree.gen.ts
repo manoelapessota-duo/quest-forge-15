@@ -11,9 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CharacterRouteImport } from './routes/character'
+import { Route as CompetenciesRouteImport } from './routes/competencies'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as DiagnosticResultRouteImport } from './routes/diagnostic-result'
+import { Route as DirectionRouteImport } from './routes/direction'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrologueRouteImport } from './routes/prologue'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as WeeklyBossRouteImport } from './routes/weekly-boss'
+import { Route as WorldRouteImport } from './routes/world'
+import { Route as QuestQuestIdRouteImport } from './routes/quest.$questId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const CharacterRoute = CharacterRouteImport.update({
   id: '/character',
   path: '/character',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompetenciesRoute = CompetenciesRouteImport.update({
+  id: '/competencies',
+  path: '/competencies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiagnosticRoute = DiagnosticRouteImport.update({
@@ -35,55 +47,143 @@ const DiagnosticResultRoute = DiagnosticResultRouteImport.update({
   path: '/diagnostic-result',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirectionRoute = DirectionRouteImport.update({
+  id: '/direction',
+  path: '/direction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrologueRoute = PrologueRouteImport.update({
   id: '/prologue',
   path: '/prologue',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeeklyBossRoute = WeeklyBossRouteImport.update({
+  id: '/weekly-boss',
+  path: '/weekly-boss',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorldRoute = WorldRouteImport.update({
+  id: '/world',
+  path: '/world',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuestQuestIdRoute = QuestQuestIdRouteImport.update({
+  id: '/quest/$questId',
+  path: '/quest/$questId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/character': typeof CharacterRoute
+  '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
   '/diagnostic-result': typeof DiagnosticResultRoute
+  '/direction': typeof DirectionRoute
+  '/profile': typeof ProfileRoute
   '/prologue': typeof PrologueRoute
+  '/settings': typeof SettingsRoute
+  '/weekly-boss': typeof WeeklyBossRoute
+  '/world': typeof WorldRoute
+  '/quest/$questId': typeof QuestQuestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/character': typeof CharacterRoute
+  '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
   '/diagnostic-result': typeof DiagnosticResultRoute
+  '/direction': typeof DirectionRoute
+  '/profile': typeof ProfileRoute
   '/prologue': typeof PrologueRoute
+  '/settings': typeof SettingsRoute
+  '/weekly-boss': typeof WeeklyBossRoute
+  '/world': typeof WorldRoute
+  '/quest/$questId': typeof QuestQuestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/character': typeof CharacterRoute
+  '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
   '/diagnostic-result': typeof DiagnosticResultRoute
+  '/direction': typeof DirectionRoute
+  '/profile': typeof ProfileRoute
   '/prologue': typeof PrologueRoute
+  '/settings': typeof SettingsRoute
+  '/weekly-boss': typeof WeeklyBossRoute
+  '/world': typeof WorldRoute
+  '/quest/$questId': typeof QuestQuestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/character' | '/diagnostic' | '/diagnostic-result' | '/prologue'
+    | '/'
+    | '/character'
+    | '/competencies'
+    | '/diagnostic'
+    | '/diagnostic-result'
+    | '/direction'
+    | '/profile'
+    | '/prologue'
+    | '/settings'
+    | '/weekly-boss'
+    | '/world'
+    | '/quest/$questId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/character' | '/diagnostic' | '/diagnostic-result' | '/prologue'
+  to:
+    | '/'
+    | '/character'
+    | '/competencies'
+    | '/diagnostic'
+    | '/diagnostic-result'
+    | '/direction'
+    | '/profile'
+    | '/prologue'
+    | '/settings'
+    | '/weekly-boss'
+    | '/world'
+    | '/quest/$questId'
   id:
     | '__root__'
     | '/'
     | '/character'
+    | '/competencies'
     | '/diagnostic'
     | '/diagnostic-result'
+    | '/direction'
+    | '/profile'
     | '/prologue'
+    | '/settings'
+    | '/weekly-boss'
+    | '/world'
+    | '/quest/$questId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CharacterRoute: typeof CharacterRoute
+  CompetenciesRoute: typeof CompetenciesRoute
   DiagnosticRoute: typeof DiagnosticRoute
   DiagnosticResultRoute: typeof DiagnosticResultRoute
+  DirectionRoute: typeof DirectionRoute
+  ProfileRoute: typeof ProfileRoute
   PrologueRoute: typeof PrologueRoute
+  SettingsRoute: typeof SettingsRoute
+  WeeklyBossRoute: typeof WeeklyBossRoute
+  WorldRoute: typeof WorldRoute
+  QuestQuestIdRoute: typeof QuestQuestIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -102,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CharacterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/competencies': {
+      id: '/competencies'
+      path: '/competencies'
+      fullPath: '/competencies'
+      preLoaderRoute: typeof CompetenciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diagnostic': {
       id: '/diagnostic'
       path: '/diagnostic'
@@ -116,11 +223,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiagnosticResultRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/direction': {
+      id: '/direction'
+      path: '/direction'
+      fullPath: '/direction'
+      preLoaderRoute: typeof DirectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/prologue': {
       id: '/prologue'
       path: '/prologue'
       fullPath: '/prologue'
       preLoaderRoute: typeof PrologueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/weekly-boss': {
+      id: '/weekly-boss'
+      path: '/weekly-boss'
+      fullPath: '/weekly-boss'
+      preLoaderRoute: typeof WeeklyBossRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/world': {
+      id: '/world'
+      path: '/world'
+      fullPath: '/world'
+      preLoaderRoute: typeof WorldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quest/$questId': {
+      id: '/quest/$questId'
+      path: '/quest/$questId'
+      fullPath: '/quest/$questId'
+      preLoaderRoute: typeof QuestQuestIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -129,9 +278,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CharacterRoute: CharacterRoute,
+  CompetenciesRoute: CompetenciesRoute,
   DiagnosticRoute: DiagnosticRoute,
   DiagnosticResultRoute: DiagnosticResultRoute,
+  DirectionRoute: DirectionRoute,
+  ProfileRoute: ProfileRoute,
   PrologueRoute: PrologueRoute,
+  SettingsRoute: SettingsRoute,
+  WeeklyBossRoute: WeeklyBossRoute,
+  WorldRoute: WorldRoute,
+  QuestQuestIdRoute: QuestQuestIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
