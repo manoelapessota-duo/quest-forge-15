@@ -43,7 +43,9 @@ function ProfileScreen() {
 
   const cls = CLASSES.find((c) => c.id === player.classId)!;
   const { next } = getXPForNextLevel(player.xp);
-  const answered = new Set(save.answers.map((a) => a.questionId)).size;
+  const answered = new Set(
+    save.answers.filter((a) => a.materialId).map((a) => a.questionId),
+  ).size;
   const accuracy = save.answers.length
     ? Math.round((save.answers.filter((a) => a.correct).length / save.answers.length) * 100)
     : 0;
