@@ -130,3 +130,31 @@ export function QuestionRunner({
     </div>
   );
 }
+
+/** Referência do material de origem, presente em toda pergunta do PDI. */
+function MaterialReference({ materialId }: { materialId: string }) {
+  const material = materialId ? getMaterial(materialId) : undefined;
+  if (!material) {
+    return (
+      <p className="mt-3 text-xs text-muted-foreground">
+        Pergunta geral de ofício — não pertence a nenhum material do PDI. Serve para situar seu ponto de
+        partida na jornada.
+      </p>
+    );
+  }
+  return (
+    <div className="mt-3 rounded-lg border border-border bg-background/40 p-3 text-xs text-muted-foreground">
+      <span className="text-primary">Material de referência:</span>{" "}
+      <span className="text-foreground">{material.name}</span> · {material.source} · {material.kind} ·{" "}
+      {material.duration}
+      {material.url && (
+        <>
+          {" · "}
+          <a href={material.url} target="_blank" rel="noreferrer" className="text-primary underline">
+            abrir material
+          </a>
+        </>
+      )}
+    </div>
+  );
+}
