@@ -9,6 +9,8 @@ import {
   getXPForNextLevel,
   isRegionUnlocked,
 } from "@/game/rules";
+import { AvatarView } from "@/components/game/AvatarView";
+import { getAvatar } from "@/game/avatars";
 import { useGame } from "@/game/state";
 
 export const Route = createFileRoute("/profile")({
@@ -53,9 +55,7 @@ function ProfileScreen() {
       <main className="mx-auto max-w-4xl px-5 py-10">
         <section className="quest-panel rounded-xl p-6">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="grid size-16 place-items-center rounded-full border border-primary/50 bg-primary/15 text-3xl text-primary">
-              {cls.glyph}
-            </span>
+            <AvatarView avatar={player.avatar} className="h-40 w-32 shrink-0" />
             <div>
               <h1 className="font-display text-3xl text-parchment">{player.name}</h1>
               <p className="text-sm text-primary">
