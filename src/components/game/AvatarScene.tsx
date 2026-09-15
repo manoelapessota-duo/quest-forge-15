@@ -1,6 +1,6 @@
 import { Canvas } from "@react-three/fiber";
 import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import { getAvatar } from "@/game/avatars";
@@ -19,7 +19,7 @@ function Figure({ avatar, spin }: { avatar: AvatarId; spin: boolean }) {
   });
 
   return (
-    <group ref={group} position={[0, -0.9, 0]}>
+    <group ref={group} position={[0, -1.05, 0]}>
       {/* manto / corpo */}
       <mesh position={[0, 0.85, 0]} castShadow>
         <coneGeometry args={[female ? 0.52 : 0.46, 1.5, 24]} />
@@ -110,6 +110,12 @@ function Figure({ avatar, spin }: { avatar: AvatarId; spin: boolean }) {
   );
 }
 
+function CameraAim() {
+  const camera = useThree((state) => state.camera);
+  camera.lookAt(0, 0.05, 0);
+  return null;
+}
+
 export default function AvatarScene({
   avatar,
   spin = true,
@@ -120,7 +126,7 @@ export default function AvatarScene({
   interactive?: boolean;
 }) {
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 1.4, 4.1], fov: 42 }}>
+    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0.9, 4.9], fov: 42 }}>
       <color attach="background" args={["#1a0f2b"]} />
       <ambientLight intensity={0.5} />
       <directionalLight
@@ -140,6 +146,7 @@ export default function AvatarScene({
           scale={[10, 2, 1]}
         />
       </Environment>
+      <CameraAim />
       <Figure avatar={avatar} spin={spin} />
       {interactive && (
         <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={1} maxPolarAngle={1.7} />
