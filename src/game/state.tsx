@@ -18,6 +18,7 @@ import {
 import { clearSave, emptySave, loadSave, persistSave } from "./storage";
 import type {
   AnswerRecord,
+  AvatarId,
   ClassId,
   DiagnosticResult,
   GameSave,
@@ -35,8 +36,10 @@ interface GameContextValue {
   save: GameSave;
   hydrated: boolean;
   level: number;
-  createPlayer: (name: string, classId: ClassId) => void;
+  createPlayer: (name: string, classId: ClassId, avatar: AvatarId) => void;
   changeClass: (classId: ClassId) => void;
+  changeAvatar: (avatar: AvatarId) => void;
+  toggleMaterialSeen: (materialId: string) => void;
   markPrologueSeen: () => void;
   recordAnswer: (
     question: Question,
@@ -80,11 +83,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const createPlayer = useCallback(
-    (name: string, classId: ClassId) => {
+    (name: string, classId: ClassId, avatar: AvatarId) => {
       const now = Date.now();
       update((previous) => ({
         ...previous,
-        player: { name: name.trim().slice(0, 40), classId, createdAt: now, classChangedAt: now, xp: 0 },
+        player: {
+          name: name.trim().slice(0, 40),
+          classId,
+          avatar,
+          createdAt: now,
+          classChangedAt: now,
+          xp: 0,
+        },
       }));
     },
     [update],
@@ -97,6 +107,33 @@ export function GameProvider({ children }: { children: ReactNode }) {
           ? { ...previous, player: { ...previous.player, classId, classChangedAt: Date.now() } }
           : previous,
       );
+    },
+    [update],
+  );
+
+  const changeAvatar = useCallback(
+    (avatar: AvatarId) => {
+      update((previous) =>
+        previous.player ? { ...previous, player: { ...previous.player, avatar } } : previous,
+      );
+    },
+    [update],
+  );
+
+  const toggleMaterialSeen = useCallback(
+    (materialId: string) => {
+      update((previous) => {
+        const seen = previous.progress.seenMaterials.includes(materialId);
+        return {
+          ...previous,
+          progress: {
+            ...previous.progress,
+            seenMaterials: seen
+              ? previous.progress.seenMaterials.filter((id) => id !== materialId)
+              : [...previous.progress.seenMaterials, materialId],
+          },
+        };
+      });
     },
     [update],
   );
@@ -206,6 +243,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       level: calculateLevelFromXP(save.player?.xp ?? 0),
       createPlayer,
       changeClass,
+      changeAvatar,
+      toggleMaterialSeen,
       markPrologueSeen,
       recordAnswer,
       completeQuest,
@@ -219,6 +258,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       hydrated,
       createPlayer,
       changeClass,
+      changeAvatar,
+      toggleMaterialSeen,
       markPrologueSeen,
       recordAnswer,
       completeQuest,

@@ -9,6 +9,7 @@ import {
   getXPForNextLevel,
   isRegionUnlocked,
 } from "@/game/rules";
+import { AvatarView } from "@/components/game/AvatarView";
 import { useGame } from "@/game/state";
 
 export const Route = createFileRoute("/profile")({
@@ -42,7 +43,9 @@ function ProfileScreen() {
 
   const cls = CLASSES.find((c) => c.id === player.classId)!;
   const { next } = getXPForNextLevel(player.xp);
-  const answered = new Set(save.answers.map((a) => a.questionId)).size;
+  const answered = new Set(
+    save.answers.filter((a) => a.materialId).map((a) => a.questionId),
+  ).size;
   const accuracy = save.answers.length
     ? Math.round((save.answers.filter((a) => a.correct).length / save.answers.length) * 100)
     : 0;
@@ -53,9 +56,7 @@ function ProfileScreen() {
       <main className="mx-auto max-w-4xl px-5 py-10">
         <section className="quest-panel rounded-xl p-6">
           <div className="flex flex-wrap items-center gap-4">
-            <span className="grid size-16 place-items-center rounded-full border border-primary/50 bg-primary/15 text-3xl text-primary">
-              {cls.glyph}
-            </span>
+            <AvatarView avatar={player.avatar} className="h-40 w-32 shrink-0" />
             <div>
               <h1 className="font-display text-3xl text-parchment">{player.name}</h1>
               <p className="text-sm text-primary">

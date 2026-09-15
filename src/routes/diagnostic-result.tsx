@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { MATERIALS, axisName } from "@/game/data";
 import { getQuestStatus } from "@/game/rules";
+import { suggestStartingStage } from "@/game/diagnostic";
 import { useGame } from "@/game/state";
 
 export const Route = createFileRoute("/diagnostic-result")({
@@ -42,6 +43,9 @@ function DiagnosticResultScreen() {
     }))
     .sort((a, b) => b.accuracy - a.accuracy);
 
+  const asked = rows.reduce((sum, r) => sum + r.asked, 0);
+  const correct = rows.reduce((sum, r) => sum + r.correct, 0);
+  const stage = suggestStartingStage(correct, asked);
   const strengths = rows.filter((r) => r.accuracy >= 60);
   const gaps = rows.filter((r) => r.accuracy < 60);
   const gapAxes = new Set(gaps.map((g) => g.axis));
@@ -57,6 +61,15 @@ function DiagnosticResultScreen() {
       </h1>
 
       <section className="quest-panel mt-8 rounded-xl p-5">
+        <p className="text-xs tracking-[0.3em] text-primary uppercase">Ponto de partida</p>
+        <h2 className="mt-2 font-display text-2xl text-parchment">{stage.stage}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{stage.advice}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {correct} de {asked} acertos nas perguntas gerais de ofício.
+        </p>
+      </section>
+
+      <section className="quest-panel mt-6 rounded-xl p-5">
         <h2 className="font-display text-xl text-parchment">Status por eixo</h2>
         <ul className="mt-4 space-y-3">
           {rows.map((row) => (

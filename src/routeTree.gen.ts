@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BackpackRouteImport } from './routes/backpack'
 import { Route as CharacterRouteImport } from './routes/character'
 import { Route as CompetenciesRouteImport } from './routes/competencies'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
@@ -25,6 +26,11 @@ import { Route as QuestQuestIdRouteImport } from './routes/quest.$questId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BackpackRoute = BackpackRouteImport.update({
+  id: '/backpack',
+  path: '/backpack',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CharacterRoute = CharacterRouteImport.update({
@@ -85,6 +91,7 @@ const QuestQuestIdRoute = QuestQuestIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/backpack'
     | '/character'
     | '/competencies'
     | '/diagnostic'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/backpack'
     | '/character'
     | '/competencies'
     | '/diagnostic'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/backpack'
     | '/character'
     | '/competencies'
     | '/diagnostic'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BackpackRoute: typeof BackpackRoute
   CharacterRoute: typeof CharacterRoute
   CompetenciesRoute: typeof CompetenciesRoute
   DiagnosticRoute: typeof DiagnosticRoute
@@ -193,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backpack': {
+      id: '/backpack'
+      path: '/backpack'
+      fullPath: '/backpack'
+      preLoaderRoute: typeof BackpackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/character': {
@@ -277,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BackpackRoute: BackpackRoute,
   CharacterRoute: CharacterRoute,
   CompetenciesRoute: CompetenciesRoute,
   DiagnosticRoute: DiagnosticRoute,

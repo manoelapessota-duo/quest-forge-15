@@ -6,6 +6,7 @@ import { useGame } from "@/game/state";
 
 const NAV = [
   { to: "/world", label: "Mundo" },
+  { to: "/backpack", label: "Mochila" },
   { to: "/profile", label: "Personagem" },
   { to: "/competencies", label: "Competências" },
   { to: "/weekly-boss", label: "Chefão" },
