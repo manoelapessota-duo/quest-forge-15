@@ -79,6 +79,8 @@ export function QuestionRunner({
         {question.prompt}
       </h2>
 
+      <MaterialReference materialId={question.materialId} />
+
       <ul className="mt-5 space-y-2">
         {question.displayOptions.map((option) => {
           const isPicked = picked === option.originalIndex;
