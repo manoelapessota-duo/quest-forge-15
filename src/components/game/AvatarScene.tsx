@@ -112,7 +112,7 @@ function Figure({ avatar, spin }: { avatar: AvatarId; spin: boolean }) {
 
 function CameraAim() {
   const camera = useThree((state) => state.camera);
-  camera.lookAt(0, 0.05, 0);
+  camera.lookAt(0, 0.15, 0);
   return null;
 }
 
@@ -126,7 +126,7 @@ export default function AvatarScene({
   interactive?: boolean;
 }) {
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0.9, 4.9], fov: 42 }}>
+    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 1.0, 6.2], fov: 38 }}>
       <color attach="background" args={["#1a0f2b"]} />
       <ambientLight intensity={0.5} />
       <directionalLight
