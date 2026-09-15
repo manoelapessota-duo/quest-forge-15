@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { QuestionRunner } from "@/components/game/QuestionRunner";
-import { DIAGNOSTIC_QUESTIONS, suggestStartingStage } from "@/game/diagnostic";
+import { DIAGNOSTIC_QUESTIONS } from "@/game/diagnostic";
 import { seededShuffle } from "@/game/rules";
 import { useGame } from "@/game/state";
 
@@ -96,9 +96,7 @@ function DiagnosticScreen() {
           };
           return outcome;
         }}
-        onFinish={(result) => {
-          const stage = suggestStartingStage(result.correct, result.total);
-          console.info("Ponto de partida sugerido:", stage.stage);
+        onFinish={() => {
           saveDiagnostic({ at: Date.now(), perAxis: { ...perAxis } });
           navigate({ to: "/diagnostic-result" });
         }}
