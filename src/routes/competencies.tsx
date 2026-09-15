@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Shell } from "@/components/game/Shell";
-import { MATERIALS } from "@/game/data";
+import { AXES, MATERIALS } from "@/game/data";
 import { getAxisStats, getQuestStatus } from "@/game/rules";
 import { useGame } from "@/game/state";
 
