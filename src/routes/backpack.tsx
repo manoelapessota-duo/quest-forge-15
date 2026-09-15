@@ -68,8 +68,8 @@ function BackpackScreen() {
       <main className="mx-auto max-w-6xl px-5 py-10">
         <h1 className="font-display text-3xl text-parchment sm:text-4xl">Mochila do viajante</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Todo material do PDI vive aqui. Marque como visto ou lido para encher a mochila — e acompanhe o
-          dano que as respostas erradas causaram no caminho.
+          Todo material do PDI vive aqui. Marque como visto ou lido para encher a mochila — e
+          acompanhe o dano que as respostas erradas causaram no caminho.
         </p>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,340px)_1fr]">
@@ -99,8 +99,8 @@ function BackpackScreen() {
                   />
                 </div>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {vitality.wounds} dano por respostas erradas · {vitality.healed} cura por acertos em
-                  retomada
+                  {vitality.wounds} dano por respostas erradas · {vitality.healed} cura por acertos
+                  em retomada
                 </p>
               </div>
 
@@ -188,9 +188,12 @@ function BackpackScreen() {
                       </button>
 
                       <div className="min-w-0 flex-1">
-                        <p className="font-display text-lg leading-snug text-parchment">{material.name}</p>
+                        <p className="font-display text-lg leading-snug text-parchment">
+                          {material.name}
+                        </p>
                         <p className="mt-1 text-xs text-muted-foreground">
-                          {material.source} · {material.kind} · {material.duration} · {material.access}
+                          {material.source} · {material.kind} · {material.duration} ·{" "}
+                          {material.access}
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                           {material.objective}

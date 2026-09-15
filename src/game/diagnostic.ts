@@ -229,7 +229,10 @@ export const DIAGNOSTIC_QUESTIONS: Question[] = [
 ];
 
 /** Sugere o ponto de partida da jornada a partir do desempenho geral. */
-export function suggestStartingStage(correct: number, total: number): {
+export function suggestStartingStage(
+  correct: number,
+  total: number,
+): {
   stage: string;
   advice: string;
 } {

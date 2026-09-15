@@ -37,7 +37,12 @@ function Figure({ avatar, spin }: { avatar: AvatarId; spin: boolean }) {
       </mesh>
       {/* braços */}
       {[-1, 1].map((side) => (
-        <mesh key={side} position={[side * 0.32, 1.32, 0]} rotation={[0, 0, side * 0.22]} castShadow>
+        <mesh
+          key={side}
+          position={[side * 0.32, 1.32, 0]}
+          rotation={[0, 0, side * 0.22]}
+          castShadow
+        >
           <capsuleGeometry args={[0.075, 0.62, 6, 14]} />
           <meshStandardMaterial color={skin.robe} roughness={0.6} />
         </mesh>
@@ -118,14 +123,27 @@ export default function AvatarScene({
     <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 1.4, 4.1], fov: 42 }}>
       <color attach="background" args={["#1a0f2b"]} />
       <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 6, 4]} intensity={1.6} castShadow shadow-mapSize={[1024, 1024]} />
+      <directionalLight
+        position={[3, 6, 4]}
+        intensity={1.6}
+        castShadow
+        shadow-mapSize={[1024, 1024]}
+      />
       <pointLight position={[-3, 2, 2]} intensity={18} color="#c084fc" distance={9} />
       <Environment>
         <Lightformer intensity={1.6} position={[0, 4, 2]} scale={[6, 6, 1]} />
-        <Lightformer intensity={1} color="#a855f7" position={[-4, 1, 1]} rotation-y={Math.PI / 2} scale={[10, 2, 1]} />
+        <Lightformer
+          intensity={1}
+          color="#a855f7"
+          position={[-4, 1, 1]}
+          rotation-y={Math.PI / 2}
+          scale={[10, 2, 1]}
+        />
       </Environment>
       <Figure avatar={avatar} spin={spin} />
-      {interactive && <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={1} maxPolarAngle={1.7} />}
+      {interactive && (
+        <OrbitControls enablePan={false} enableZoom={false} minPolarAngle={1} maxPolarAngle={1.7} />
+      )}
     </Canvas>
   );
 }

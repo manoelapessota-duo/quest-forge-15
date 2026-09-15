@@ -16,7 +16,10 @@ export const Route = createFileRoute("/character")({
           "Escolha seu avatar 3D — mulher, homem ou místico — e o arquétipo que guia sua jornada de desenvolvimento.",
       },
       { property: "og:title", content: "Criar personagem — PDI QUEST" },
-      { property: "og:description", content: "Avatares 3D originais e três arquétipos para explorar o mundo." },
+      {
+        property: "og:description",
+        content: "Avatares 3D originais e três arquétipos para explorar o mundo.",
+      },
     ],
   }),
   component: CharacterScreen,
@@ -42,8 +45,8 @@ function CharacterScreen() {
     <main className="mx-auto max-w-5xl px-5 py-12">
       <h1 className="font-display text-3xl text-parchment sm:text-4xl">Quem parte em jornada?</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Escolha o avatar que o mundo vai ver em 3D e o arquétipo que dá cor à narrativa. O progresso é o
-        mesmo em todos.
+        Escolha o avatar que o mundo vai ver em 3D e o arquétipo que dá cor à narrativa. O progresso
+        é o mesmo em todos.
       </p>
 
       <form onSubmit={submit} className="mt-8 space-y-8">
@@ -72,7 +75,9 @@ function CharacterScreen() {
                     />
                     <p className="mt-2 font-display text-xl text-parchment">{option.name}</p>
                     <p className="text-xs text-primary">{option.tagline}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{option.description}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {option.description}
+                    </p>
                   </button>
                 );
               })}
@@ -118,7 +123,9 @@ function CharacterScreen() {
                   <span className="text-2xl text-primary">{option.glyph}</span>
                   <p className="mt-2 font-display text-xl text-parchment">{option.name}</p>
                   <p className="text-xs text-primary">{option.tagline}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{option.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {option.description}
+                  </p>
                 </button>
               );
             })}
