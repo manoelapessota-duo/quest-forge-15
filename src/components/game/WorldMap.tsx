@@ -55,7 +55,6 @@ export function WorldMap({ onSelect }: { onSelect: (materialId: string) => void 
 
   function onPointerDown(event: React.PointerEvent<SVGSVGElement>) {
     drag.current = { x: event.clientX, y: event.clientY, vx: view.x, vy: view.y };
-    event.currentTarget.setPointerCapture(event.pointerId);
   }
 
   function onPointerMove(event: React.PointerEvent<SVGSVGElement>) {
