@@ -85,6 +85,24 @@ function CompetenciesScreen() {
               {points.map((p) => (
                 <circle key={`dot-${p.stat.axis}`} cx={p.x} cy={p.y} r={4} fill="var(--primary)" />
               ))}
+              {points.map((p) => {
+                const lx = center + Math.cos(p.angle) * (radius + 18);
+                const ly = center + Math.sin(p.angle) * (radius + 18);
+                const anchor = Math.abs(Math.cos(p.angle)) < 0.3 ? "middle" : Math.cos(p.angle) > 0 ? "start" : "end";
+                return (
+                  <text
+                    key={`label-${p.stat.axis}`}
+                    x={lx}
+                    y={ly}
+                    textAnchor={anchor}
+                    dominantBaseline="middle"
+                    fontSize={11}
+                    fill="var(--muted-foreground)"
+                  >
+                    {AXES.find((a) => a.id === p.stat.axis)?.short ?? p.stat.axis}
+                  </text>
+                );
+              })}
             </svg>
           </div>
 
