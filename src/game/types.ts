@@ -13,6 +13,7 @@ export type AxisId =
 export type Difficulty = "light" | "medium" | "advanced" | "challenge";
 export type QuestionType = "multiple_choice" | "true_false" | "matching";
 export type ClassId = "arqueiro" | "cacador" | "mago";
+export type AvatarId = "mulher" | "homem" | "mistico";
 
 export interface Question {
   id: string;
@@ -73,10 +74,12 @@ export interface WeeklyBossRun {
 export interface Player {
   name: string;
   classId: ClassId;
+  avatar: AvatarId;
   createdAt: number;
   classChangedAt: number;
   xp: number;
 }
+
 
 export interface DiagnosticResult {
   at: number;
@@ -89,6 +92,8 @@ export interface Progress {
   prologueSeen: boolean;
   diagnostic: DiagnosticResult | null;
   achievements: string[];
+  /** Materiais marcados como vistos/lidos — enchem a mochila. */
+  seenMaterials: string[];
 }
 
 export interface Settings {

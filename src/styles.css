@@ -146,37 +146,37 @@
 /* ---------------- PDI QUEST — identidade visual ---------------- */
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.19 0.035 165);
-  --foreground: oklch(0.95 0.02 95);
-  --card: oklch(0.24 0.035 160);
-  --card-foreground: oklch(0.95 0.02 95);
-  --popover: oklch(0.22 0.035 160);
-  --popover-foreground: oklch(0.95 0.02 95);
-  --primary: oklch(0.78 0.15 82);
-  --primary-foreground: oklch(0.2 0.04 80);
-  --secondary: oklch(0.32 0.045 168);
-  --secondary-foreground: oklch(0.95 0.02 95);
-  --muted: oklch(0.28 0.03 165);
-  --muted-foreground: oklch(0.74 0.03 110);
-  --accent: oklch(0.62 0.14 210);
-  --accent-foreground: oklch(0.16 0.03 210);
-  --destructive: oklch(0.58 0.19 25);
-  --destructive-foreground: oklch(0.97 0.01 90);
-  --border: oklch(0.42 0.05 150 / 45%);
-  --input: oklch(0.42 0.05 150 / 55%);
-  --ring: oklch(0.78 0.15 82);
-  --chart-1: oklch(0.78 0.15 82);
-  --chart-2: oklch(0.68 0.13 165);
-  --chart-3: oklch(0.62 0.14 210);
-  --chart-4: oklch(0.7 0.16 320);
-  --chart-5: oklch(0.72 0.16 40);
+  --background: oklch(0.17 0.055 300);
+  --foreground: oklch(0.95 0.02 300);
+  --card: oklch(0.22 0.065 300);
+  --card-foreground: oklch(0.95 0.02 300);
+  --popover: oklch(0.2 0.06 300);
+  --popover-foreground: oklch(0.95 0.02 300);
+  --primary: oklch(0.68 0.19 305);
+  --primary-foreground: oklch(0.16 0.05 300);
+  --secondary: oklch(0.3 0.07 302);
+  --secondary-foreground: oklch(0.95 0.02 300);
+  --muted: oklch(0.27 0.055 300);
+  --muted-foreground: oklch(0.76 0.04 300);
+  --accent: oklch(0.72 0.15 330);
+  --accent-foreground: oklch(0.16 0.05 320);
+  --destructive: oklch(0.6 0.2 20);
+  --destructive-foreground: oklch(0.97 0.01 300);
+  --border: oklch(0.48 0.1 305 / 45%);
+  --input: oklch(0.48 0.1 305 / 55%);
+  --ring: oklch(0.68 0.19 305);
+  --chart-1: oklch(0.68 0.19 305);
+  --chart-2: oklch(0.74 0.14 330);
+  --chart-3: oklch(0.62 0.15 270);
+  --chart-4: oklch(0.8 0.12 90);
+  --chart-5: oklch(0.66 0.14 200);
 
-  --magic: oklch(0.72 0.16 300);
-  --success: oklch(0.7 0.15 150);
-  --parchment: oklch(0.93 0.04 88);
-  --stone: oklch(0.5 0.02 120);
-  --water: oklch(0.6 0.1 225);
-  --leaf: oklch(0.55 0.12 150);
+  --magic: oklch(0.76 0.18 300);
+  --success: oklch(0.72 0.15 155);
+  --parchment: oklch(0.95 0.03 305);
+  --stone: oklch(0.55 0.04 300);
+  --water: oklch(0.64 0.13 260);
+  --leaf: oklch(0.62 0.15 285);
 }
 
 @theme inline {
@@ -202,9 +202,9 @@
 
 @utility quest-panel {
   background:
-    linear-gradient(oklch(0.24 0.035 160 / 0.94), oklch(0.2 0.03 162 / 0.94));
+    linear-gradient(oklch(0.24 0.07 302 / 0.94), oklch(0.19 0.06 300 / 0.94));
   border: 1px solid var(--border);
-  box-shadow: 0 10px 30px oklch(0.1 0.02 160 / 0.5);
+  box-shadow: 0 10px 30px oklch(0.09 0.05 300 / 0.55);
 }
 
 @keyframes pdi-float {

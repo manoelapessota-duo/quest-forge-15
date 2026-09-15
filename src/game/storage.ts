@@ -19,6 +19,7 @@ export const emptySave: GameSave = {
     prologueSeen: false,
     diagnostic: null,
     achievements: [],
+    seenMaterials: [],
   },
   answers: [],
   weeklyBoss: [],
@@ -46,6 +47,8 @@ export function loadSave(): GameSave {
   };
   if (save.player && typeof save.player.xp !== "number") save.player.xp = 0;
   if (!Array.isArray(save.answers)) save.answers = [];
+  if (!Array.isArray(save.progress.seenMaterials)) save.progress.seenMaterials = [];
+  if (save.player && !save.player.avatar) save.player.avatar = "mistico";
   return save;
 }
 

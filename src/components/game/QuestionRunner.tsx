@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { DIFFICULTY_LABEL, TYPE_LABEL, axisName } from "@/game/data";
+import { DIFFICULTY_LABEL, TYPE_LABEL, axisName, getMaterial } from "@/game/data";
 import { shuffleQuestion } from "@/game/rules";
 import type { Question } from "@/game/types";
 

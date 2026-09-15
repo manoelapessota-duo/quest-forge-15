@@ -232,6 +232,24 @@ export function evaluateAchievements(save: GameSave): string[] {
   return [...unlocked];
 }
 
+/** Vitalidade do personagem: cada resposta errada tira 4 pontos, com piso de 20. */
+export function getVitality(save: GameSave): {
+  hp: number;
+  maxHp: number;
+  wounds: number;
+  healed: number;
+} {
+  const wounds = save.answers.filter((a) => !a.correct).length;
+  const healed = save.answers.filter((a) => a.correct && a.attempt > 1).length;
+  const hp = Math.max(20, 100 - wounds * 4 + healed * 2);
+  return { hp: Math.min(100, hp), maxHp: 100, wounds, healed };
+}
+
+/** Progresso da mochila: materiais marcados como vistos/lidos. */
+export function getBackpackProgress(save: GameSave): { done: number; total: number } {
+  return { done: save.progress.seenMaterials.length, total: MATERIALS.length };
+}
+
 export function getTopMistakes(save: GameSave, limit = 10) {
   const counts = new Map<string, { questionId: string; misses: number }>();
   for (const record of save.answers) {
