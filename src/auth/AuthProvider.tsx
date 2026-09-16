@@ -58,10 +58,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    supabase.auth.getSession().then(({ data }) => void sync(data.session, false));
+    supabase.auth
+      .getSession()
+      .then(({ data }) => void sync(data.session, false))
+      .catch((cause) => {
+        console.error(cause);
+        if (active) setLoading(false);
+      });
 
     const { data: sub } = supabase.auth.onAuthStateChange((event, nextSession) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
+      if (event === "INITIAL_SESSION") {
+        void sync(nextSession, false);
+      } else if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "USER_UPDATED") {
         void sync(nextSession, event === "SIGNED_IN");
       } else if (nextSession) {
         setSession(nextSession);
