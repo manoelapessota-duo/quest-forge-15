@@ -1,5 +1,5 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useAuth } from "@/auth/AuthProvider";
 import { useGame } from "@/game/state";
 
@@ -28,8 +28,15 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isPublic = PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 
+  const redirected = useRef(false);
   useEffect(() => {
-    if (!loading && !session && !isPublic) void navigate({ to: "/auth", replace: true });
+    if (isPublic || loading || session) {
+      redirected.current = false;
+      return;
+    }
+    if (redirected.current) return;
+    redirected.current = true;
+    void navigate({ to: "/auth", replace: true });
   }, [loading, session, isPublic, navigate]);
 
   if (isPublic) return <>{children}</>;
