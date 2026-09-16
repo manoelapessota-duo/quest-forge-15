@@ -87,7 +87,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       if (!user) {
         userIdRef.current = null;
         if (active) {
-          setSave(emptySave);
+          setSave(loadSave());
           setHydrated(true);
         }
         return;
