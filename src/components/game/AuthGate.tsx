@@ -1,7 +1,8 @@
-import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useRouterState } from "@tanstack/react-router";
+import { type ReactNode } from "react";
 import { useAuth } from "@/auth/AuthProvider";
 import { useGame } from "@/game/state";
+import { LoginPanel } from "./LoginPanel";
 
 const PUBLIC_PATHS = ["/auth"];
 
@@ -24,24 +25,12 @@ function JourneyLoader({ message }: { message: string }) {
 export function AuthGate({ children }: { children: ReactNode }) {
   const { session, loading } = useAuth();
   const { hydrated } = useGame();
-  const navigate = useNavigate();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isPublic = PUBLIC_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 
-  const redirected = useRef(false);
-  useEffect(() => {
-    if (isPublic || loading || session) {
-      redirected.current = false;
-      return;
-    }
-    if (redirected.current) return;
-    redirected.current = true;
-    void navigate({ to: "/auth", replace: true });
-  }, [loading, session, isPublic, navigate]);
-
   if (isPublic) return <>{children}</>;
   if (loading) return <JourneyLoader message="Abrindo o portal…" />;
-  if (!session) return <JourneyLoader message="Levando você ao portal…" />;
+  if (!session) return <LoginPanel />;
   if (!hydrated) return <JourneyLoader message="Restaurando sua jornada…" />;
   return <>{children}</>;
 }
