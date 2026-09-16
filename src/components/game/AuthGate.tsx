@@ -3,7 +3,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { useAuth } from "@/auth/AuthProvider";
 import { useGame } from "@/game/state";
 
-const PUBLIC_PATHS = ["/auth"];
+const PUBLIC_PATHS = ["/auth", "/world"];
 
 function JourneyLoader({ message }: { message: string }) {
   return (
