@@ -18,8 +18,10 @@ export const Route = createFileRoute("/character")({
       { property: "og:title", content: "Criar personagem — PDI QUEST" },
       {
         property: "og:description",
-        content: "Avatares 3D originais e três arquétipos para explorar o mundo.",
+        content: "Avatares 3D de fantasia detalhados e três arquétipos para explorar o mundo.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: CharacterScreen,
@@ -51,7 +53,7 @@ function CharacterScreen() {
 
       <form onSubmit={submit} className="mt-8 space-y-8">
         <div className="grid gap-6 md:grid-cols-[minmax(0,320px)_1fr]">
-          <AvatarView avatar={avatar} interactive className="h-80 w-full" />
+          <AvatarView avatar={avatar} interactive className="h-[28rem] w-full" />
 
           <fieldset>
             <legend className="text-sm text-muted-foreground">Avatar</legend>

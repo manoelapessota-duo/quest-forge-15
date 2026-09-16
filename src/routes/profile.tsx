@@ -19,6 +19,8 @@ export const Route = createFileRoute("/profile")({
       { name: "description", content: "Nível, XP, missões, acurácia, territórios e troféus do seu personagem." },
       { property: "og:title", content: "Ficha do personagem — PDI QUEST" },
       { property: "og:description", content: "Todo o seu progresso no mundo do PDI QUEST." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProfileScreen,
