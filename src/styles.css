@@ -214,6 +214,33 @@
   box-shadow: inset 0 0 70px oklch(0.08 0.04 300 / 0.7), 0 18px 45px oklch(0.08 0.05 300 / 0.45);
 }
 
+.avatar-premium-render {
+  object-position: 50% 50%;
+  filter: saturate(1.06) contrast(1.04);
+  transform: scale(0.97);
+  transform-origin: 50% 50%;
+  transition: transform 500ms ease, filter 500ms ease;
+}
+
+.avatar-interactive:hover {
+  filter: saturate(1.12) contrast(1.06) brightness(1.04);
+  transform: scale(1);
+}
+
+.avatar-light {
+  background:
+    radial-gradient(circle at 50% 42%, transparent 25%, oklch(0.1 0.05 300 / 0.18) 76%),
+    linear-gradient(180deg, transparent 75%, oklch(0.1 0.05 300 / 0.25));
+  box-shadow: inset 0 0 40px oklch(0.09 0.05 300 / 0.35);
+}
+
+@keyframes avatar-breathe {
+  0%, 100% { transform: scale(0.97) translateY(0); }
+  50% { transform: scale(0.975) translateY(-2px); }
+}
+
+.avatar-breathe { animation: avatar-breathe 5s ease-in-out infinite; }
+
 .world-node-hit {
   cursor: pointer;
   outline: none;

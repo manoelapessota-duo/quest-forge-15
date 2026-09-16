@@ -1,7 +1,8 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, Environment, Html, Lightformer, MapControls, Sparkles } from "@react-three/drei";
+import { Environment, Html, Lightformer, MapControls, Sparkles, useTexture } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import worldMapTexture from "@/assets/world-map-premium.jpg";
 import { MATERIALS, REGIONS } from "@/game/data";
 import { LANDMARKS, MAP_HEIGHT, MAP_NODES, MAP_WIDTH, PORTALS } from "@/game/map";
 import { getQuestStatus, isRegionUnlocked } from "@/game/rules";
@@ -23,30 +24,25 @@ function terrainHeight(x: number, z: number) {
 }
 
 function Terrain() {
+  const texture = useTexture(worldMapTexture);
   const geometry = useMemo(() => {
     const geo = new THREE.PlaneGeometry(24, 16.8, 80, 56);
     const pos = geo.getAttribute("position") as THREE.BufferAttribute;
-    const colors: number[] = [];
-    const low = new THREE.Color("#314338");
-    const high = new THREE.Color("#706a72");
-    const violet = new THREE.Color("#3c2851");
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i);
       const z = -pos.getY(i);
-      const h = terrainHeight(x, z);
+      const h = terrainHeight(x, z) * 0.18;
       pos.setZ(i, h);
-      const c = low.clone().lerp(high, THREE.MathUtils.clamp((h + 0.1) / 1.9, 0, 1));
-      c.lerp(violet, THREE.MathUtils.clamp((-z - 2) / 12, 0, 0.3));
-      colors.push(c.r, c.g, c.b);
     }
-    geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
     geo.computeVertexNormals();
     return geo;
   }, []);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.anisotropy = 8;
   return (
     <mesh rotation-x={-Math.PI / 2} receiveShadow>
       <primitive object={geometry} attach="geometry" />
-      <meshStandardMaterial vertexColors roughness={0.95} metalness={0.02} />
+      <meshStandardMaterial map={texture} roughness={0.82} metalness={0.01} color="#f2e8ff" />
     </mesh>
   );
 }
@@ -234,18 +230,14 @@ function World({ onSelect }: { onSelect: (materialId: string) => void }) {
   return (
     <>
       <color attach="background" args={["#160d22"]} />
-      <fog attach="fog" args={["#251532", 13, 30]} />
-      <hemisphereLight args={["#c7bcdf", "#25192b", 1.2]} />
-      <directionalLight position={[-7, 13, 8]} intensity={2.6} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={11} shadow-camera-bottom={-11} />
+      <fog attach="fog" args={["#251532", 18, 34]} />
+      <hemisphereLight args={["#eee7ff", "#25192b", 1.45]} />
+      <directionalLight position={[-7, 13, 8]} intensity={1.5} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={11} shadow-camera-bottom={-11} />
       <Environment resolution={128}>
         <Lightformer intensity={2.5} position={[-5, 10, 4]} scale={[10, 10, 1]} />
         <Lightformer intensity={1.5} color="#a968dd" position={[8, 3, -5]} rotation-y={Math.PI / 2} scale={[12, 4, 1]} />
       </Environment>
       <Terrain />
-      <Water />
-      <MountainRange />
-      <Forest />
-      <VillageCluster />
       <Road points={[worldPoint(250,1120,HEIGHT), worldPoint(650,1030,HEIGHT), worldPoint(1010,970,HEIGHT)]} />
       <Road points={[worldPoint(1010,970,HEIGHT), worldPoint(1300,760,HEIGHT), worldPoint(1620,620,HEIGHT)]} />
       <Road points={[worldPoint(1620,620,HEIGHT), worldPoint(1250,390,HEIGHT), worldPoint(980,210,HEIGHT)]} />
@@ -272,8 +264,7 @@ function World({ onSelect }: { onSelect: (materialId: string) => void }) {
         return <QuestNode key={node.materialId} x={node.x} y={node.y} status={getQuestStatus(save, node.materialId)} label={material.name} onSelect={() => onSelect(node.materialId)} />;
       })}
       <Sparkles count={55} scale={[22, 6, 15]} size={1.2} speed={0.12} opacity={0.28} color="#c794ff" />
-      <ContactShadows position={[0, -0.15, 0]} opacity={0.48} scale={24} blur={3} far={8} />
-      <MapControls makeDefault enableRotate minDistance={8} maxDistance={23} maxPolarAngle={1.12} minPolarAngle={0.72} minAzimuthAngle={-0.65} maxAzimuthAngle={0.65} target={[0,0,1]} enableDamping dampingFactor={0.08} />
+      <MapControls makeDefault enableRotate minDistance={10} maxDistance={24} maxPolarAngle={0.88} minPolarAngle={0.5} minAzimuthAngle={-0.35} maxAzimuthAngle={0.35} target={[0,0,1]} enableDamping dampingFactor={0.08} />
     </>
   );
 }
@@ -282,7 +273,7 @@ export default function WorldMapScene({ onSelect }: { onSelect: (materialId: str
   const [ready, setReady] = useState(false);
   return (
     <div className="relative aspect-[4/3] min-h-[430px] w-full overflow-hidden rounded-lg border border-border bg-background">
-      <Canvas shadows dpr={[1,1.5]} camera={{ position: [0, 11.5, 13.5], fov: 43, near: 0.1, far: 80 }} gl={{ antialias: true }} onCreated={() => setReady(true)}>
+      <Canvas shadows dpr={[1,1.5]} camera={{ position: [0, 15.5, 8.5], fov: 39, near: 0.1, far: 80 }} gl={{ antialias: true }} onCreated={() => setReady(true)}>
         <World onSelect={onSelect} />
       </Canvas>
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between bg-gradient-to-b from-background/85 to-transparent p-3">
