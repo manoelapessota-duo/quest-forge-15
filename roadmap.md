@@ -21,4 +21,4 @@
 - [x] Substituir o mapa flat por um mundo 3D com terreno, relevo, água, vegetação, caminhos e construções
 - [x] Preservar seleção de missões, bloqueios, portais, pan, zoom e legibilidade da informação
 - [x] Unificar iluminação, materiais e atmosfera entre personagens e mundo
-- [ ] Validar desktop, celular, interação, carregamento e console
+- [x] Validar desktop, celular, interação, carregamento e console

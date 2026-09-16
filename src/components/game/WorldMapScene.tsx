@@ -201,7 +201,7 @@ function Portal({ position, unlocked }: { position: Vec3; unlocked: boolean }) {
 
 function QuestNode({ x, y, status, label, onSelect }: { x: number; y: number; status: string; label: string; onSelect: () => void }) {
   const p = worldPoint(x, y);
-  p[1] = terrainHeight(p[0], p[2]) + 0.35;
+  p[1] = terrainHeight(p[0], p[2]) * 0.18 + 0.16;
   const color = status === "completed" ? "#67d99a" : status === "available" ? "#c27aff" : status === "in_progress" ? "#65b9db" : "#716a78";
   return (
     <group position={p}>
@@ -238,12 +238,9 @@ function World({ onSelect }: { onSelect: (materialId: string) => void }) {
         <Lightformer intensity={1.5} color="#a968dd" position={[8, 3, -5]} rotation-y={Math.PI / 2} scale={[12, 4, 1]} />
       </Environment>
       <Terrain />
-      <Road points={[worldPoint(250,1120,HEIGHT), worldPoint(650,1030,HEIGHT), worldPoint(1010,970,HEIGHT)]} />
-      <Road points={[worldPoint(1010,970,HEIGHT), worldPoint(1300,760,HEIGHT), worldPoint(1620,620,HEIGHT)]} />
-      <Road points={[worldPoint(1620,620,HEIGHT), worldPoint(1250,390,HEIGHT), worldPoint(980,210,HEIGHT)]} />
       {LANDMARKS.map((mark) => {
         const p = worldPoint(mark.x, mark.y);
-        p[1] = terrainHeight(p[0], p[2]);
+        p[1] = terrainHeight(p[0], p[2]) * 0.18;
         return (
           <group key={mark.label}>
             <Building position={p} kind={mark.kind} />
@@ -255,7 +252,7 @@ function World({ onSelect }: { onSelect: (materialId: string) => void }) {
       })}
       {PORTALS.map((portal) => {
         const p = worldPoint(portal.x, portal.y);
-        p[1] = terrainHeight(p[0], p[2]);
+        p[1] = terrainHeight(p[0], p[2]) * 0.18;
         return <Portal key={portal.name} position={p} unlocked={isRegionUnlocked(xp, portal.region)} />;
       })}
       {MAP_NODES.map((node) => {
