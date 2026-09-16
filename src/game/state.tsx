@@ -15,7 +15,17 @@ import {
   getWeekKey,
   questionAvailability,
 } from "./rules";
-import { clearSave, emptySave, loadSave, persistSave } from "./storage";
+import {
+  clearLocalCache,
+  emptySave,
+  getSaveOwner,
+  loadSave,
+  persistSave,
+  setSaveOwner,
+} from "./storage";
+import { useAuth } from "@/auth/AuthProvider";
+import { supabase } from "@/integrations/supabase/client";
+import { isEmptySave, loadCloudSave, logActivity, saveCloudSave, saveWeight } from "./cloud";
 import type {
   AnswerRecord,
   AvatarId,
@@ -35,6 +45,7 @@ interface AnswerOutcome {
 interface GameContextValue {
   save: GameSave;
   hydrated: boolean;
+  saving: boolean;
   level: number;
   createPlayer: (name: string, classId: ClassId, avatar: AvatarId) => void;
   changeClass: (classId: ClassId) => void;
@@ -56,19 +67,84 @@ interface GameContextValue {
 const GameContext = createContext<GameContextValue | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
+  const { user, loading: authLoading } = useAuth();
   const [save, setSave] = useState<GameSave>(emptySave);
   const [hydrated, setHydrated] = useState(false);
+  const [saving, setSaving] = useState(false);
   const saveRef = useRef(save);
   saveRef.current = save;
+  const userIdRef = useRef<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Hidratação: nuvem é a fonte oficial; o cache local só é promovido quando
+  // a nuvem está vazia e o save pertence a este mesmo usuário.
   useEffect(() => {
-    setSave(loadSave());
-    setHydrated(true);
-  }, []);
+    if (authLoading) return;
+    let active = true;
+    setHydrated(false);
 
+    const run = async () => {
+      if (!user) {
+        userIdRef.current = null;
+        if (active) {
+          setSave(emptySave);
+          setHydrated(true);
+        }
+        return;
+      }
+      const owner = getSaveOwner();
+      const local = owner === null || owner === user.id ? loadSave() : emptySave;
+      const cloud = await loadCloudSave(user.id);
+      let chosen = cloud ?? emptySave;
+
+      if (!isEmptySave(local) && saveWeight(local) > saveWeight(chosen)) {
+        chosen = local;
+        await saveCloudSave(user.id, local);
+        await logActivity(user.id, "progress_migrated", "Progresso deste navegador enviado para a nuvem");
+      } else if (!cloud) {
+        await saveCloudSave(user.id, chosen);
+      }
+
+      if (!active) return;
+      userIdRef.current = user.id;
+      setSaveOwner(user.id);
+      setSave(chosen);
+      persistSave(chosen);
+      setHydrated(true);
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [user, authLoading]);
+
+  // Autosave com debounce: cache local imediato, nuvem depois de uma pausa.
   useEffect(() => {
-    if (hydrated) persistSave(save);
+    if (!hydrated) return;
+    persistSave(save);
+    const userId = userIdRef.current;
+    if (!userId) return;
+    setSaving(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      void saveCloudSave(userId, saveRef.current).finally(() => setSaving(false));
+    }, 1200);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [save, hydrated]);
+
+  // Salvamento final ao sair do jogo.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const flush = () => {
+      const userId = userIdRef.current;
+      if (userId && hydrated) void saveCloudSave(userId, saveRef.current);
+    };
+    window.addEventListener("pagehide", flush);
+    return () => window.removeEventListener("pagehide", flush);
+  }, [hydrated]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -171,6 +247,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
         player: previous.player ? { ...previous.player, xp: previous.player.xp + Math.max(0, xpAwarded) } : previous.player,
       }));
 
+      const userId = userIdRef.current;
+      if (userId && afterLevel > beforeLevel) {
+        void logActivity(userId, "level_up", `Alcançou o nível ${afterLevel}`, { level: afterLevel });
+      }
+
       return { correct, xpAwarded, leveledUp: afterLevel > beforeLevel, newLevel: afterLevel };
     },
     [update],
@@ -178,6 +259,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const completeQuest = useCallback(
     (materialId: string) => {
+      const userId = userIdRef.current;
+      if (userId && !saveRef.current.progress.completedQuests.includes(materialId)) {
+        void logActivity(userId, "quest_completed", "Concluiu uma missão", { materialId });
+      }
       update((previous) => {
         if (previous.progress.completedQuests.includes(materialId)) return previous;
         const questions = getQuestionsForMaterial(materialId);
@@ -232,14 +317,23 @@ export function GameProvider({ children }: { children: ReactNode }) {
   );
 
   const resetGame = useCallback(() => {
-    clearSave();
+    const userId = userIdRef.current;
+    clearLocalCache();
     setSave(emptySave);
+    if (userId) {
+      void (async () => {
+        await supabase.from("game_progress").delete().eq("user_id", userId);
+        await logActivity(userId, "progress_reset", "Jogador reiniciou o próprio progresso");
+        setSaveOwner(userId);
+      })();
+    }
   }, []);
 
   const value = useMemo<GameContextValue>(
     () => ({
       save,
       hydrated,
+      saving,
       level: calculateLevelFromXP(save.player?.xp ?? 0),
       createPlayer,
       changeClass,
@@ -256,6 +350,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [
       save,
       hydrated,
+      saving,
       createPlayer,
       changeClass,
       changeAvatar,

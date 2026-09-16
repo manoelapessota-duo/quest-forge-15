@@ -39,6 +39,15 @@ function WorldScreen() {
     if (hydrated && !save.player) navigate({ to: "/character", replace: true });
   }, [hydrated, save.player, navigate]);
 
+  // Evita montar a cena 3D enquanto a rota está apenas de passagem.
+  if (!hydrated || !save.player) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-background text-sm text-muted-foreground">
+        Erguendo o mundo…
+      </div>
+    );
+  }
+
   const material = selected ? getMaterial(selected) : undefined;
   const status = selected ? getQuestStatus(save, selected) : "locked";
   const progress = selected ? getQuestProgress(save, selected) : { done: 0, total: 0 };

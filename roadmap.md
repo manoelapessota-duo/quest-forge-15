@@ -22,3 +22,7 @@
 - [x] Preservar seleção de missões, bloqueios, portais, pan, zoom e legibilidade da informação
 - [x] Unificar iluminação, materiais e atmosfera entre personagens e mundo
 - [x] Validar desktop, celular, interação, carregamento e console
+
+## Contas e progresso na nuvem (concluído)
+- Login com Google, perfis, papéis (user/admin), progresso salvo automaticamente e painel /admin.
+- Pendente: promover a primeira conta a admin após o primeiro login real.

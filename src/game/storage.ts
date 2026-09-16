@@ -70,3 +70,34 @@ export function clearSave() {
   if (typeof window === "undefined") return;
   for (const key of Object.values(KEYS)) localStorage.removeItem(key);
 }
+
+const OWNER_KEY = "pdiQuest.owner";
+
+/** Dono do save guardado neste navegador (id do usuário autenticado). */
+export function getSaveOwner(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return localStorage.getItem(OWNER_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setSaveOwner(userId: string) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(OWNER_KEY, userId);
+  } catch {
+    /* armazenamento indisponível */
+  }
+}
+
+export function clearLocalCache() {
+  clearSave();
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(OWNER_KEY);
+  } catch {
+    /* armazenamento indisponível */
+  }
+}
