@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BackpackRouteImport } from './routes/backpack'
 import { Route as CharacterRouteImport } from './routes/character'
 import { Route as CompetenciesRouteImport } from './routes/competencies'
@@ -21,11 +22,18 @@ import { Route as PrologueRouteImport } from './routes/prologue'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as WeeklyBossRouteImport } from './routes/weekly-boss'
 import { Route as WorldRouteImport } from './routes/world'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUserIdRouteImport } from './routes/admin/$userId'
 import { Route as QuestQuestIdRouteImport } from './routes/quest.$questId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BackpackRoute = BackpackRouteImport.update({
@@ -83,6 +91,16 @@ const WorldRoute = WorldRouteImport.update({
   path: '/world',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUserIdRoute = AdminUserIdRouteImport.update({
+  id: '/admin/$userId',
+  path: '/admin/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuestQuestIdRoute = QuestQuestIdRouteImport.update({
   id: '/quest/$questId',
   path: '/quest/$questId',
@@ -91,6 +109,7 @@ const QuestQuestIdRoute = QuestQuestIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
@@ -102,10 +121,13 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/weekly-boss': typeof WeeklyBossRoute
   '/world': typeof WorldRoute
+  '/admin/$userId': typeof AdminUserIdRoute
   '/quest/$questId': typeof QuestQuestIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
@@ -117,11 +139,14 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/weekly-boss': typeof WeeklyBossRoute
   '/world': typeof WorldRoute
+  '/admin/$userId': typeof AdminUserIdRoute
   '/quest/$questId': typeof QuestQuestIdRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/backpack': typeof BackpackRoute
   '/character': typeof CharacterRoute
   '/competencies': typeof CompetenciesRoute
@@ -133,12 +158,15 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/weekly-boss': typeof WeeklyBossRoute
   '/world': typeof WorldRoute
+  '/admin/$userId': typeof AdminUserIdRoute
   '/quest/$questId': typeof QuestQuestIdRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/backpack'
     | '/character'
     | '/competencies'
@@ -150,10 +178,13 @@ export interface FileRouteTypes {
     | '/settings'
     | '/weekly-boss'
     | '/world'
+    | '/admin/$userId'
     | '/quest/$questId'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/backpack'
     | '/character'
     | '/competencies'
@@ -165,10 +196,13 @@ export interface FileRouteTypes {
     | '/settings'
     | '/weekly-boss'
     | '/world'
+    | '/admin/$userId'
     | '/quest/$questId'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/backpack'
     | '/character'
     | '/competencies'
@@ -180,11 +214,14 @@ export interface FileRouteTypes {
     | '/settings'
     | '/weekly-boss'
     | '/world'
+    | '/admin/$userId'
     | '/quest/$questId'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   BackpackRoute: typeof BackpackRoute
   CharacterRoute: typeof CharacterRoute
   CompetenciesRoute: typeof CompetenciesRoute
@@ -196,7 +233,9 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   WeeklyBossRoute: typeof WeeklyBossRoute
   WorldRoute: typeof WorldRoute
+  AdminUserIdRoute: typeof AdminUserIdRoute
   QuestQuestIdRoute: typeof QuestQuestIdRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -206,6 +245,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/backpack': {
@@ -285,6 +331,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorldRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/$userId': {
+      id: '/admin/$userId'
+      path: '/admin/$userId'
+      fullPath: '/admin/$userId'
+      preLoaderRoute: typeof AdminUserIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quest/$questId': {
       id: '/quest/$questId'
       path: '/quest/$questId'
@@ -297,6 +357,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   BackpackRoute: BackpackRoute,
   CharacterRoute: CharacterRoute,
   CompetenciesRoute: CompetenciesRoute,
@@ -308,7 +369,9 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   WeeklyBossRoute: WeeklyBossRoute,
   WorldRoute: WorldRoute,
+  AdminUserIdRoute: AdminUserIdRoute,
   QuestQuestIdRoute: QuestQuestIdRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

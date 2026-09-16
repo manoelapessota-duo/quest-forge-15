@@ -3,6 +3,9 @@ import type { ReactNode } from "react";
 import { getLevelProgress, getLevelTitle, getXPForNextLevel } from "@/game/rules";
 import { CLASSES } from "@/game/data";
 import { useGame } from "@/game/state";
+import { useAuth } from "@/auth/AuthProvider";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 
 const NAV = [
   { to: "/world", label: "Mundo" },
@@ -14,7 +17,17 @@ const NAV = [
 ] as const;
 
 export function Shell({ children }: { children: ReactNode }) {
-  const { save, level } = useGame();
+  const { save, level, saving } = useGame();
+  const { profile, isAdmin, signOut } = useAuth();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    void navigate({ to: "/auth", replace: true });
+  };
   const player = save.player;
   const xp = player?.xp ?? 0;
   const { next } = getXPForNextLevel(xp);
@@ -48,7 +61,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
 
         <nav className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 pb-2 text-sm">
-          {NAV.map((item) => (
+          {[...NAV, ...(isAdmin ? [{ to: "/admin", label: "Guardiões" } as const] : [])].map((item) => (
             <Link
               key={item.to}
               to={item.to}
@@ -58,6 +71,17 @@ export function Shell({ children }: { children: ReactNode }) {
               {item.label}
             </Link>
           ))}
+          <div className="ml-auto flex items-center gap-2 pl-2 text-xs text-muted-foreground">
+            <span className="hidden max-w-40 truncate sm:inline">{profile?.full_name ?? profile?.email ?? ""}</span>
+            <span aria-live="polite">{saving ? "Salvando…" : "Salvo"}</span>
+            <button
+              type="button"
+              onClick={() => void handleSignOut()}
+              className="rounded-md border border-border px-3 py-1.5 whitespace-nowrap transition-colors hover:bg-secondary"
+            >
+              Sair
+            </button>
+          </div>
         </nav>
       </header>
       {children}

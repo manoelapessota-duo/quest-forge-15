@@ -62,8 +62,8 @@ function SettingsScreen() {
         <section className="quest-panel mt-5 rounded-xl p-5">
           <h2 className="font-display text-lg text-parchment">Progresso</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Seu progresso fica salvo apenas neste navegador e neste computador. Reiniciar apaga personagem,
-            respostas, XP e conquistas.
+            Seu progresso é salvo automaticamente na sua conta e volta em qualquer dispositivo. Reiniciar apaga
+            personagem, respostas, XP e conquistas.
           </p>
           {confirming ? (
             <div className="mt-4 flex flex-wrap gap-2">
