@@ -28,6 +28,8 @@ export const Route = createFileRoute("/backpack")({
         property: "og:description",
         content: "Encha a mochila marcando cada material do PDI como visto ou lido.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: BackpackScreen,

@@ -16,9 +16,9 @@
 - [x] Prova do Espelho com perguntas genéricas de ofício + sugestão de ponto de partida
 
 ## Direção de arte MMORPG 3D premium
-- [ ] Remodelar os três avatares com proporções, materiais e detalhes de fantasia realista estilizada
-- [ ] Centralizar o corpo inteiro em todos os viewports e enquadramentos
-- [ ] Substituir o mapa flat por um mundo 3D com terreno, relevo, água, vegetação, caminhos e construções
-- [ ] Preservar seleção de missões, bloqueios, portais, pan, zoom e legibilidade da informação
-- [ ] Unificar iluminação, materiais e atmosfera entre personagens e mundo
+- [x] Remodelar os três avatares com proporções, materiais e detalhes de fantasia realista estilizada
+- [x] Centralizar o corpo inteiro em todos os viewports e enquadramentos
+- [x] Substituir o mapa flat por um mundo 3D com terreno, relevo, água, vegetação, caminhos e construções
+- [x] Preservar seleção de missões, bloqueios, portais, pan, zoom e legibilidade da informação
+- [x] Unificar iluminação, materiais e atmosfera entre personagens e mundo
 - [ ] Validar desktop, celular, interação, carregamento e console

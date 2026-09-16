@@ -22,8 +22,7 @@ export function AvatarView({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-border bg-background ${className}`}
-      style={{ background: "linear-gradient(180deg,#221334,#160c24)" }}
+      className={`avatar-stage relative overflow-hidden rounded-lg border border-border bg-background ${className}`}
     >
       {mounted ? (
         <Suspense fallback={<Fallback name={option.name} />}>

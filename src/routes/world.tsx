@@ -16,6 +16,8 @@ export const Route = createFileRoute("/world")({
       },
       { property: "og:title", content: "Mapa do mundo — PDI QUEST" },
       { property: "og:description", content: "Quatro territórios, 48 missões e portais a desbloquear." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: WorldScreen,
@@ -46,7 +48,7 @@ function WorldScreen() {
       <main className="mx-auto max-w-6xl px-4 py-6">
         <h1 className="font-display text-2xl text-parchment sm:text-3xl">Mapa do mundo</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Arraste para explorar, use a roda ou os botões para aproximar. Cada marcador é uma missão real.
+          Explore o terreno em perspectiva, arraste para viajar e use a roda para aproximar. Cada cristal é uma missão real.
         </p>
 
         <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_320px]">
